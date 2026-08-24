@@ -1,0 +1,15 @@
+seed: 42
+d_obs: 32
+d_model: 128
+n_layers: 2
+n_tools: 42
+train_epochs: 35
+train_batch_size: 2
+train_pace_sec: 2.0
+lr: 0.0003
+weight_decay: 0.0001
+early_stop_patience: 8
+hard_tier_boost: 2.4
+amp: true
+device: auto
+main_run: veto_gpt4o_r1

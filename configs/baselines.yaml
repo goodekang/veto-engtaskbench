@@ -1,0 +1,19 @@
+methods:
+  - direct
+  - rag
+  - react
+  - pipeline
+  - react_verifier
+  - mas
+  - acc
+  - visual_cad
+  - veto
+
+backbones:
+  - gpt-4.1
+  - gpt-4o
+  - claude-3.5-sonnet
+  - deepseek-v3
+  - qwen3-32b
+  - qwen2.5-72b
+  - llama-3.1-70b

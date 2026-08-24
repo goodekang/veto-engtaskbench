@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Derived artefacts kept out of the public release
+data/features/
+data/aux/
+checkpoints/
+results/
+logs/
+figures/

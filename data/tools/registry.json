@@ -1,0 +1,212 @@
+[
+  {
+    "name": "ifc_query_0",
+    "domain": "bim",
+    "doc": "ifc query 0"
+  },
+  {
+    "name": "ifc_query_1",
+    "domain": "bim",
+    "doc": "ifc query 1"
+  },
+  {
+    "name": "ifc_query_2",
+    "domain": "bim",
+    "doc": "ifc query 2"
+  },
+  {
+    "name": "ifc_query_3",
+    "domain": "bim",
+    "doc": "ifc query 3"
+  },
+  {
+    "name": "ifc_query_4",
+    "domain": "bim",
+    "doc": "ifc query 4"
+  },
+  {
+    "name": "ifc_query_5",
+    "domain": "bim",
+    "doc": "ifc query 5"
+  },
+  {
+    "name": "ifc_query_6",
+    "domain": "bim",
+    "doc": "ifc query 6"
+  },
+  {
+    "name": "ifc_query_7",
+    "domain": "bim",
+    "doc": "ifc query 7"
+  },
+  {
+    "name": "ifc_query_8",
+    "domain": "bim",
+    "doc": "ifc query 8"
+  },
+  {
+    "name": "spatial_0",
+    "domain": "bim",
+    "doc": "spatial 0"
+  },
+  {
+    "name": "spatial_1",
+    "domain": "bim",
+    "doc": "spatial 1"
+  },
+  {
+    "name": "spatial_2",
+    "domain": "bim",
+    "doc": "spatial 2"
+  },
+  {
+    "name": "spatial_3",
+    "domain": "bim",
+    "doc": "spatial 3"
+  },
+  {
+    "name": "spatial_4",
+    "domain": "bim",
+    "doc": "spatial 4"
+  },
+  {
+    "name": "spatial_5",
+    "domain": "bim",
+    "doc": "spatial 5"
+  },
+  {
+    "name": "spatial_6",
+    "domain": "bim",
+    "doc": "spatial 6"
+  },
+  {
+    "name": "rel_0",
+    "domain": "bim",
+    "doc": "rel 0"
+  },
+  {
+    "name": "rel_1",
+    "domain": "bim",
+    "doc": "rel 1"
+  },
+  {
+    "name": "rel_2",
+    "domain": "bim",
+    "doc": "rel 2"
+  },
+  {
+    "name": "rel_3",
+    "domain": "bim",
+    "doc": "rel 3"
+  },
+  {
+    "name": "rel_4",
+    "domain": "bim",
+    "doc": "rel 4"
+  },
+  {
+    "name": "bim_val_0",
+    "domain": "bim",
+    "doc": "bim val 0"
+  },
+  {
+    "name": "bim_val_1",
+    "domain": "bim",
+    "doc": "bim val 1"
+  },
+  {
+    "name": "bim_val_2",
+    "domain": "bim",
+    "doc": "bim val 2"
+  },
+  {
+    "name": "bim_val_3",
+    "domain": "bim",
+    "doc": "bim val 3"
+  },
+  {
+    "name": "bim_io_0",
+    "domain": "bim",
+    "doc": "bim io 0"
+  },
+  {
+    "name": "bim_io_1",
+    "domain": "bim",
+    "doc": "bim io 1"
+  },
+  {
+    "name": "cq_op_0",
+    "domain": "cad",
+    "doc": "cq op 0"
+  },
+  {
+    "name": "cq_op_1",
+    "domain": "cad",
+    "doc": "cq op 1"
+  },
+  {
+    "name": "cq_op_2",
+    "domain": "cad",
+    "doc": "cq op 2"
+  },
+  {
+    "name": "cq_op_3",
+    "domain": "cad",
+    "doc": "cq op 3"
+  },
+  {
+    "name": "cq_op_4",
+    "domain": "cad",
+    "doc": "cq op 4"
+  },
+  {
+    "name": "cq_op_5",
+    "domain": "cad",
+    "doc": "cq op 5"
+  },
+  {
+    "name": "cq_op_6",
+    "domain": "cad",
+    "doc": "cq op 6"
+  },
+  {
+    "name": "cq_op_7",
+    "domain": "cad",
+    "doc": "cq op 7"
+  },
+  {
+    "name": "cq_op_8",
+    "domain": "cad",
+    "doc": "cq op 8"
+  },
+  {
+    "name": "cq_op_9",
+    "domain": "cad",
+    "doc": "cq op 9"
+  },
+  {
+    "name": "cq_op_10",
+    "domain": "cad",
+    "doc": "cq op 10"
+  },
+  {
+    "name": "cad_val_0",
+    "domain": "cad",
+    "doc": "cad val 0"
+  },
+  {
+    "name": "cad_val_1",
+    "domain": "cad",
+    "doc": "cad val 1"
+  },
+  {
+    "name": "cad_io_0",
+    "domain": "cad",
+    "doc": "cad io 0"
+  },
+  {
+    "name": "cad_io_1",
+    "domain": "cad",
+    "doc": "cad io 1"
+  }
+]
