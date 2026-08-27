@@ -28,19 +28,44 @@ def setup_log() -> logging.Logger:
     return log
 
 
+def drop_observations(
+    obs: torch.Tensor,
+    lengths: torch.Tensor,
+    drop: float,
+    *,
+    generator: torch.Generator,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    if not 0 <= drop < 1:
+        raise ValueError("observation dropout must be in [0, 1)")
+    if drop == 0:
+        return obs, lengths
+    kept: list[torch.Tensor] = []
+    new_lengths: list[int] = []
+    for row, length in zip(obs, lengths.tolist()):
+        n_keep = max(1, int(round(length * (1.0 - drop))))
+        order = torch.randperm(length, generator=generator, device="cpu")[:n_keep]
+        order = order.sort().values.to(row.device)
+        kept.append(row[:length].index_select(0, order))
+        new_lengths.append(n_keep)
+    out = obs.new_zeros((len(kept), max(new_lengths), obs.size(-1)))
+    for index, row in enumerate(kept):
+        out[index, : row.size(0)] = row
+    return out, torch.tensor(new_lengths, dtype=torch.long)
+
+
 @torch.no_grad()
-def eval_dropout(model, loader, device, drop: float, pace_sec: float, log) -> float:
+def eval_dropout(model, loader, device, drop: float, pace_sec: float, log, seed: int) -> float:
     model.eval()
     hits = 0
     n = 0
     t0 = time.time()
+    generator = torch.Generator(device="cpu")
+    generator.manual_seed(seed + int(drop * 1000))
     for i, batch in enumerate(loader, start=1):
         bt = time.time()
         obs = batch["obs"].to(device)
         lengths = batch["lengths"]
-        if drop > 0:
-            mask = (torch.rand_like(obs) > drop).to(obs.dtype)
-            obs = obs * mask
+        obs, lengths = drop_observations(obs, lengths, drop, generator=generator)
         out = official_forward(model, obs, lengths)
         pred = (torch.sigmoid(out["logit"]) >= 0.5).float().cpu()
         hits += int((pred == batch["y"]).sum())
@@ -69,7 +94,7 @@ def main() -> None:
     _, loader = build_loader(root, split="test", batch_size=int(cfg.get("batch_size", 4)))
     rows = []
     for drop in (0.0, 0.10, 0.20, 0.30):
-        tsr = eval_dropout(model, loader, device, drop, pace, log)
+        tsr = eval_dropout(model, loader, device, drop, pace, log, int(cfg.get("seed", 42)))
         rows.append({"obs_dropout": drop, "tsr": tsr})
     out = root / "results" / "robustness" / "obs_dropout.csv"
     out.parent.mkdir(parents=True, exist_ok=True)

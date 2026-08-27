@@ -1,4 +1,21 @@
 seed: 42
+benchmark:
+  name: EngTaskBench-220
+  tasks: 220
+  domains:
+    bim:
+      name: BIM-RCC
+      tasks: 120
+      tiers: {T1: 30, T2: 34, T3: 30, T4: 26}
+      registered_tools: 27
+      verifier_oracles: 6
+    cad:
+      name: CAD-PC
+      tasks: 100
+      tiers: {C1: 28, C2: 36, C3: 22, C4: 14}
+      registered_tools: 15
+      verifier_oracles: 5
+
 d_obs: 32
 d_model: 128
 n_layers: 2
@@ -7,19 +24,30 @@ repair_budget: 3
 replan_budget: 2
 broker_k: 15
 clear_width_mm: 850
+mass_tolerance: 0.02
+bbox_tolerance: 0.02
+sandbox_timeout_s: 120
+sandbox_memory_mb: 2048
+replay_sandboxed: false
 pace_sec: 1.0
 smoke_pace_sec: 2.0
 train_pace_sec: 2.0
 train_epochs: 35
 train_batch_size: 2
 batch_size: 4
+num_workers: 0
 device: auto
 
 paths:
   data: data
+  manifest: data/splits/bench220.csv
+  features: data/features
+  registry: data/tools/registry.json
   results: results
   checkpoints: checkpoints
   logs: logs
+  figures: figures
 
 main_run: veto_gpt4o_r1
 named_case: bim_t4_schependomlaan_clearwidth
+named_cad_case: cad_c3_bracket_4bolt

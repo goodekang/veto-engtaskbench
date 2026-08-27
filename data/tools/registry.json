@@ -1,212 +1,48 @@
 [
-  {
-    "name": "ifc_query_0",
-    "domain": "bim",
-    "doc": "ifc query 0"
-  },
-  {
-    "name": "ifc_query_1",
-    "domain": "bim",
-    "doc": "ifc query 1"
-  },
-  {
-    "name": "ifc_query_2",
-    "domain": "bim",
-    "doc": "ifc query 2"
-  },
-  {
-    "name": "ifc_query_3",
-    "domain": "bim",
-    "doc": "ifc query 3"
-  },
-  {
-    "name": "ifc_query_4",
-    "domain": "bim",
-    "doc": "ifc query 4"
-  },
-  {
-    "name": "ifc_query_5",
-    "domain": "bim",
-    "doc": "ifc query 5"
-  },
-  {
-    "name": "ifc_query_6",
-    "domain": "bim",
-    "doc": "ifc query 6"
-  },
-  {
-    "name": "ifc_query_7",
-    "domain": "bim",
-    "doc": "ifc query 7"
-  },
-  {
-    "name": "ifc_query_8",
-    "domain": "bim",
-    "doc": "ifc query 8"
-  },
-  {
-    "name": "spatial_0",
-    "domain": "bim",
-    "doc": "spatial 0"
-  },
-  {
-    "name": "spatial_1",
-    "domain": "bim",
-    "doc": "spatial 1"
-  },
-  {
-    "name": "spatial_2",
-    "domain": "bim",
-    "doc": "spatial 2"
-  },
-  {
-    "name": "spatial_3",
-    "domain": "bim",
-    "doc": "spatial 3"
-  },
-  {
-    "name": "spatial_4",
-    "domain": "bim",
-    "doc": "spatial 4"
-  },
-  {
-    "name": "spatial_5",
-    "domain": "bim",
-    "doc": "spatial 5"
-  },
-  {
-    "name": "spatial_6",
-    "domain": "bim",
-    "doc": "spatial 6"
-  },
-  {
-    "name": "rel_0",
-    "domain": "bim",
-    "doc": "rel 0"
-  },
-  {
-    "name": "rel_1",
-    "domain": "bim",
-    "doc": "rel 1"
-  },
-  {
-    "name": "rel_2",
-    "domain": "bim",
-    "doc": "rel 2"
-  },
-  {
-    "name": "rel_3",
-    "domain": "bim",
-    "doc": "rel 3"
-  },
-  {
-    "name": "rel_4",
-    "domain": "bim",
-    "doc": "rel 4"
-  },
-  {
-    "name": "bim_val_0",
-    "domain": "bim",
-    "doc": "bim val 0"
-  },
-  {
-    "name": "bim_val_1",
-    "domain": "bim",
-    "doc": "bim val 1"
-  },
-  {
-    "name": "bim_val_2",
-    "domain": "bim",
-    "doc": "bim val 2"
-  },
-  {
-    "name": "bim_val_3",
-    "domain": "bim",
-    "doc": "bim val 3"
-  },
-  {
-    "name": "bim_io_0",
-    "domain": "bim",
-    "doc": "bim io 0"
-  },
-  {
-    "name": "bim_io_1",
-    "domain": "bim",
-    "doc": "bim io 1"
-  },
-  {
-    "name": "cq_op_0",
-    "domain": "cad",
-    "doc": "cq op 0"
-  },
-  {
-    "name": "cq_op_1",
-    "domain": "cad",
-    "doc": "cq op 1"
-  },
-  {
-    "name": "cq_op_2",
-    "domain": "cad",
-    "doc": "cq op 2"
-  },
-  {
-    "name": "cq_op_3",
-    "domain": "cad",
-    "doc": "cq op 3"
-  },
-  {
-    "name": "cq_op_4",
-    "domain": "cad",
-    "doc": "cq op 4"
-  },
-  {
-    "name": "cq_op_5",
-    "domain": "cad",
-    "doc": "cq op 5"
-  },
-  {
-    "name": "cq_op_6",
-    "domain": "cad",
-    "doc": "cq op 6"
-  },
-  {
-    "name": "cq_op_7",
-    "domain": "cad",
-    "doc": "cq op 7"
-  },
-  {
-    "name": "cq_op_8",
-    "domain": "cad",
-    "doc": "cq op 8"
-  },
-  {
-    "name": "cq_op_9",
-    "domain": "cad",
-    "doc": "cq op 9"
-  },
-  {
-    "name": "cq_op_10",
-    "domain": "cad",
-    "doc": "cq op 10"
-  },
-  {
-    "name": "cad_val_0",
-    "domain": "cad",
-    "doc": "cad val 0"
-  },
-  {
-    "name": "cad_val_1",
-    "domain": "cad",
-    "doc": "cad val 1"
-  },
-  {
-    "name": "cad_io_0",
-    "domain": "cad",
-    "doc": "cad io 0"
-  },
-  {
-    "name": "cad_io_1",
-    "domain": "cad",
-    "doc": "cad io 1"
-  }
+  {"name":"ifc_open_model","domain":"bim","category":"ifc_parse_query","doc":"Open an IFC2x3 or IFC4 artefact and return schema, units, and a stable model handle.","args":{"artefact":{"type":"string","required":true}},"preconditions":["artefact_exists","ifc_schema_supported"],"postconditions":["model_handle","declared_units"]},
+  {"name":"ifc_entities_by_type","domain":"bim","category":"ifc_parse_query","doc":"Retrieve IFC entities by class with GlobalId and source-model provenance.","args":{"artefact":{"type":"string","required":true},"ifc_class":{"type":"string","default":"IfcDoor"}},"preconditions":["model_open"],"postconditions":["ElementSet","stable_global_ids"]},
+  {"name":"ifc_property_values","domain":"bim","category":"ifc_parse_query","doc":"Read property-set values for selected entities while retaining value types and units.","args":{"artefact":{"type":"string","required":true},"property_name":{"type":"string","required":false}},"preconditions":["entities_selected"],"postconditions":["QuantityTable","property_provenance"]},
+  {"name":"ifc_quantity_values","domain":"bim","category":"ifc_parse_query","doc":"Read base quantities and convert explicit IFC measure types without dropping source units.","args":{"artefact":{"type":"string","required":true},"quantity_name":{"type":"string","required":false}},"preconditions":["entities_selected"],"postconditions":["QuantityTable","declared_units"]},
+  {"name":"ifc_type_assignments","domain":"bim","category":"ifc_parse_query","doc":"Resolve occurrence-to-type assignments and inherited type properties.","args":{"artefact":{"type":"string","required":true}},"preconditions":["model_open"],"postconditions":["ElementSet","type_links"]},
+  {"name":"ifc_material_layers","domain":"bim","category":"ifc_parse_query","doc":"Return material-layer composition, thickness, and association provenance.","args":{"artefact":{"type":"string","required":true}},"preconditions":["entities_selected"],"postconditions":["QuantityTable","material_links"]},
+  {"name":"ifc_classification_refs","domain":"bim","category":"ifc_parse_query","doc":"Resolve classification and external-reference assignments for applicability filtering.","args":{"artefact":{"type":"string","required":true}},"preconditions":["entities_selected"],"postconditions":["ElementSet","classification_links"]},
+  {"name":"ifc_unit_context","domain":"bim","category":"ifc_parse_query","doc":"Read project unit assignments and conversion-based units from the IFC context.","args":{"artefact":{"type":"string","required":true}},"preconditions":["model_open"],"postconditions":["unit_map","conversion_factors"]},
+  {"name":"ifc_element_summary","domain":"bim","category":"ifc_parse_query","doc":"Serialise selected entity attributes, properties, quantities, and identifiers for evidence export.","args":{"artefact":{"type":"string","required":true}},"preconditions":["entities_selected"],"postconditions":["ElementSet","audit_provenance"]},
+
+  {"name":"spatial_containment_graph","domain":"bim","category":"spatial_geometry","doc":"Build project-site-building-storey-space-element containment edges.","args":{"artefact":{"type":"string","required":true}},"preconditions":["model_open"],"postconditions":["ElementSet","containment_edges"]},
+  {"name":"spatial_adjacency_graph","domain":"bim","category":"spatial_geometry","doc":"Compute space and opening adjacency with geometry-derived contact evidence.","args":{"artefact":{"type":"string","required":true}},"preconditions":["geometry_available"],"postconditions":["ElementSet","adjacency_edges"]},
+  {"name":"spatial_egress_paths","domain":"bim","category":"spatial_geometry","doc":"Trace candidate egress paths through spaces, doors, stairs, and exits.","args":{"artefact":{"type":"string","required":true}},"preconditions":["containment_graph"],"postconditions":["ElementSet","path_identifiers"]},
+  {"name":"spatial_clear_width","domain":"bim","category":"spatial_geometry","doc":"Measure geometric clear width at an opening after frame and obstruction deduction.","args":{"artefact":{"type":"string","required":true},"unit":{"type":"string","default":"mm","enum":["mm","cm","m"]}},"preconditions":["door_geometry"],"postconditions":["QuantityTable","declared_units"]},
+  {"name":"spatial_travel_distance","domain":"bim","category":"spatial_geometry","doc":"Measure traversable path distance in a declared coordinate frame and unit.","args":{"artefact":{"type":"string","required":true},"unit":{"type":"string","default":"m","enum":["mm","cm","m"]}},"preconditions":["egress_path"],"postconditions":["QuantityTable","path_geometry"]},
+  {"name":"spatial_clearance_envelope","domain":"bim","category":"spatial_geometry","doc":"Test unobstructed manoeuvring or accessibility clearance envelopes.","args":{"artefact":{"type":"string","required":true}},"preconditions":["geometry_available"],"postconditions":["SolidModel","collision_set"]},
+  {"name":"spatial_opening_geometry","domain":"bim","category":"spatial_geometry","doc":"Reconstruct opening geometry and local coordinate frame from placements and representations.","args":{"artefact":{"type":"string","required":true}},"preconditions":["opening_selected"],"postconditions":["SolidModel","coordinate_frame"]},
+
+  {"name":"rel_contained_in_storey","domain":"bim","category":"relational_query","doc":"Join selected elements to containing spaces and building storeys.","args":{"artefact":{"type":"string","required":true}},"preconditions":["entities_selected"],"postconditions":["ElementSet","relation_provenance"]},
+  {"name":"rel_space_boundaries","domain":"bim","category":"relational_query","doc":"Resolve physical and virtual space-boundary relationships.","args":{"artefact":{"type":"string","required":true}},"preconditions":["spaces_selected"],"postconditions":["ElementSet","boundary_links"]},
+  {"name":"rel_connectivity","domain":"bim","category":"relational_query","doc":"Resolve element connectivity and path continuity across openings and circulation elements.","args":{"artefact":{"type":"string","required":true}},"preconditions":["entities_selected"],"postconditions":["ElementSet","connectivity_edges"]},
+  {"name":"rel_group_membership","domain":"bim","category":"relational_query","doc":"Resolve zones, systems, and group memberships used by provision applicability.","args":{"artefact":{"type":"string","required":true}},"preconditions":["entities_selected"],"postconditions":["ElementSet","group_links"]},
+  {"name":"rel_document_associations","domain":"bim","category":"relational_query","doc":"Resolve document and classification associations with source identifiers.","args":{"artefact":{"type":"string","required":true}},"preconditions":["entities_selected"],"postconditions":["ElementSet","document_links"]},
+
+  {"name":"rule_predicate_eval","domain":"bim","category":"validation","doc":"Evaluate an inferred threshold predicate over a typed quantity table.","args":{"artefact":{"type":"string","required":true},"threshold":{"type":"number","required":false},"unit":{"type":"string","required":false}},"preconditions":["constraint_schema","QuantityTable"],"postconditions":["Verdict","per_element_decisions"]},
+  {"name":"validate_ifc_schema","domain":"bim","category":"validation","doc":"Validate required IFC classes, attributes, property types, cardinality, and identifiers.","args":{"artefact":{"type":"string","required":true}},"preconditions":["model_open"],"postconditions":["Verdict","schema_violations"]},
+  {"name":"validate_unit_ranges","domain":"bim","category":"validation","doc":"Canonicalise units and flag quantities outside physically plausible ranges.","args":{"artefact":{"type":"string","required":true},"unit":{"type":"string","required":false}},"preconditions":["QuantityTable"],"postconditions":["Verdict","canonical_quantities"]},
+  {"name":"validate_evidence_chain","domain":"bim","category":"validation","doc":"Check that report claims resolve to committed IFC observations and verifier verdicts.","args":{"artefact":{"type":"string","required":true}},"preconditions":["evidence_available"],"postconditions":["Verdict","traceability_map"]},
+  {"name":"bim_evidence_export","domain":"bim","category":"reporting_io","doc":"Export typed evidence, rejected candidates, and verifier verdicts as an audit record.","args":{"artefact":{"type":"string","required":true}},"preconditions":["evidence_available"],"postconditions":["audit_bundle","content_hash"]},
+  {"name":"bim_report_render","domain":"bim","category":"reporting_io","doc":"Render a compliance report mechanically from committed evidence and verdict slots.","args":{"artefact":{"type":"string","required":true}},"preconditions":["verified_evidence"],"postconditions":["report","claim_provenance"]},
+
+  {"name":"cq_new_document","domain":"cad","category":"cad_kernel","doc":"Create an empty CadQuery workplane and parametric feature document.","args":{"artefact":{"type":"string","required":true}},"preconditions":["cad_kernel_available"],"postconditions":["SolidModel","document_handle"]},
+  {"name":"cq_sketch_profile","domain":"cad","category":"cad_kernel","doc":"Create a dimensioned and fully constrained 2D sketch profile.","args":{"artefact":{"type":"string","required":true}},"preconditions":["document_open"],"postconditions":["SolidModel","constrained_sketch"]},
+  {"name":"cq_extrude","domain":"cad","category":"cad_kernel","doc":"Extrude a closed profile by a bound depth with join, cut, or new-body semantics.","args":{"artefact":{"type":"string","required":true},"distance_mm":{"type":"number","default":10.0}},"preconditions":["closed_profile"],"postconditions":["SolidModel","feature_history"]},
+  {"name":"cq_revolve","domain":"cad","category":"cad_kernel","doc":"Revolve a closed profile around an explicit axis and angular extent.","args":{"artefact":{"type":"string","required":true},"angle_deg":{"type":"number","default":360.0}},"preconditions":["closed_profile"],"postconditions":["SolidModel","feature_history"]},
+  {"name":"cq_hole","domain":"cad","category":"cad_kernel","doc":"Create dimensioned through, blind, countersunk, or counterbored holes.","args":{"artefact":{"type":"string","required":true},"count":{"type":"integer","default":1,"minimum":1}},"preconditions":["solid_exists"],"postconditions":["SolidModel","hole_features"]},
+  {"name":"cq_pattern","domain":"cad","category":"cad_kernel","doc":"Apply linear, rectangular, or polar feature patterns with parametric spacing.","args":{"artefact":{"type":"string","required":true},"count":{"type":"integer","default":4,"minimum":2}},"preconditions":["seed_feature_exists"],"postconditions":["SolidModel","pattern_relations"]},
+  {"name":"cq_fillet","domain":"cad","category":"cad_kernel","doc":"Apply radius-constrained fillets to explicitly selected edges.","args":{"artefact":{"type":"string","required":true},"radius_mm":{"type":"number","default":2.0,"minimum":0.01}},"preconditions":["solid_exists","edges_selected"],"postconditions":["SolidModel","feature_history"]},
+  {"name":"cq_chamfer","domain":"cad","category":"cad_kernel","doc":"Apply equal-distance or two-distance chamfers to selected edges.","args":{"artefact":{"type":"string","required":true},"distance_mm":{"type":"number","default":1.0,"minimum":0.01}},"preconditions":["solid_exists","edges_selected"],"postconditions":["SolidModel","feature_history"]},
+  {"name":"cq_boolean","domain":"cad","category":"cad_kernel","doc":"Fuse, cut, or intersect solids and preserve operation provenance.","args":{"artefact":{"type":"string","required":true},"operation":{"type":"string","default":"union","enum":["union","cut","intersect"]}},"preconditions":["two_solids_exist"],"postconditions":["SolidModel","feature_history"]},
+  {"name":"cq_shell","domain":"cad","category":"cad_kernel","doc":"Create a constant-thickness shell after removing selected faces.","args":{"artefact":{"type":"string","required":true},"thickness_mm":{"type":"number","default":2.0,"minimum":0.01}},"preconditions":["solid_exists"],"postconditions":["SolidModel","wall_thickness"]},
+  {"name":"cq_transform","domain":"cad","category":"cad_kernel","doc":"Apply explicit placement, rotation, mirroring, or assembly transforms.","args":{"artefact":{"type":"string","required":true},"coordinate_frame":{"type":"string","default":"world"}},"preconditions":["shape_exists"],"postconditions":["SolidModel","coordinate_frame"]},
+  {"name":"solid_kernel_validate","domain":"cad","category":"validation","doc":"Independently check B-rep validity, watertightness, self-intersection, and feature constraints.","args":{"artefact":{"type":"string","required":true},"min_edge_mm":{"type":"number","default":12.0}},"preconditions":["solid_exists"],"postconditions":["Verdict","kernel_diagnostics"]},
+  {"name":"bbox_mass_validate","domain":"cad","category":"validation","doc":"Measure bounding box and mass properties against the inferred two-percent tolerances.","args":{"artefact":{"type":"string","required":true},"relative_tolerance":{"type":"number","default":0.02,"minimum":0.0,"maximum":1.0}},"preconditions":["solid_valid"],"postconditions":["Verdict","QuantityTable"]},
+  {"name":"cad_step_export","domain":"cad","category":"reporting_io","doc":"Export a verified solid to STEP with feature, geometry, and file hashes.","args":{"artefact":{"type":"string","required":true}},"preconditions":["solid_verified"],"postconditions":["SolidModel","step_path","content_hash"]},
+  {"name":"cad_evidence_export","domain":"cad","category":"reporting_io","doc":"Export construction history, constraint checks, rejected candidates, and audit hashes.","args":{"artefact":{"type":"string","required":true}},"preconditions":["evidence_available"],"postconditions":["audit_bundle","claim_provenance"]}
 ]

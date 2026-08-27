@@ -4,10 +4,20 @@ import numpy as np
 import pandas as pd
 
 
-def task_success_rate(y_true, y_hat) -> float:
-    y_true = np.asarray(y_true).astype(int)
-    y_hat = np.asarray(y_hat).astype(int)
-    return float(np.mean(y_true == y_hat)) if y_hat.size else 0.0
+def task_success_rate(success, y_hat=None) -> float:
+    """Mean episode success.
+
+    ``y_hat`` is accepted for backward compatibility and then computes
+    prediction agreement; paper TSR should pass the episode-success vector.
+    """
+    if y_hat is not None:
+        truth = np.asarray(success).astype(int)
+        pred = np.asarray(y_hat).astype(int)
+        if truth.shape != pred.shape:
+            raise ValueError("y_true and y_hat must have the same shape")
+        return float(np.mean(truth == pred)) if pred.size else 0.0
+    values = np.asarray(success, dtype=float)
+    return float(values.mean()) if values.size else 0.0
 
 
 def binary_success_rate(success) -> float:
@@ -16,6 +26,23 @@ def binary_success_rate(success) -> float:
 
 def constraint_satisfaction(csr) -> float:
     return float(np.mean(np.asarray(csr).astype(float)))
+
+
+def grounding_accuracy(argument_ok) -> float:
+    values = np.asarray(argument_ok, dtype=float)
+    return float(values.mean()) if values.size else 0.0
+
+
+def report_faithfulness(claim_has_source) -> float:
+    values = np.asarray(claim_has_source, dtype=float)
+    return float(values.mean()) if values.size else 0.0
+
+
+def stable_success(run_success: np.ndarray) -> float:
+    values = np.asarray(run_success, dtype=bool)
+    if values.ndim != 2:
+        raise ValueError("run_success must have shape [runs, tasks]")
+    return float(values.all(axis=0).mean()) if values.shape[1] else 0.0
 
 
 def youden_threshold(y_true, scores) -> tuple[float, float]:
@@ -67,6 +94,10 @@ def bootstrap_ci(success, n_boot: int = 10000, alpha: float = 0.05, seed: int = 
     rng = np.random.default_rng(seed)
     x = np.asarray(success).astype(float)
     n = len(x)
+    if n == 0:
+        raise ValueError("bootstrap requires at least one observation")
+    if n_boot <= 0:
+        raise ValueError("n_boot must be positive")
     stats = np.empty(n_boot)
     for i in range(n_boot):
         stats[i] = rng.choice(x, size=n, replace=True).mean()
@@ -76,6 +107,10 @@ def bootstrap_ci(success, n_boot: int = 10000, alpha: float = 0.05, seed: int = 
 
 
 def stratified_bootstrap_ci(df: pd.DataFrame, col: str = "success", strata: str = "tier", n_boot: int = 10000, seed: int = 42):
+    if df.empty:
+        raise ValueError("stratified bootstrap requires at least one observation")
+    if col not in df or strata not in df:
+        raise KeyError(f"missing bootstrap columns: {col!r}, {strata!r}")
     rng = np.random.default_rng(seed)
     groups = [g[col].to_numpy() for _, g in df.groupby(strata)]
     stats = np.empty(n_boot)
@@ -100,4 +135,18 @@ def summarize_predictions(df: pd.DataFrame) -> dict[str, float]:
         out["cost_usd"] = float(df["cost_usd"].mean())
     if "score" in df and "y_true" in df:
         out["ece"] = expected_calibration_error(df["y_true"].values, df["score"].values)
+    if "grounding_ok" in df:
+        out["grounding"] = grounding_accuracy(df["grounding_ok"])
+    if "claim_has_source" in df:
+        out["faithfulness"] = report_faithfulness(df["claim_has_source"])
     return out
+
+
+def grouped_tsr(df: pd.DataFrame, by: str) -> pd.DataFrame:
+    if by not in df or "success" not in df:
+        raise KeyError(f"grouped TSR requires {by!r} and 'success'")
+    return (
+        df.groupby(by, sort=False)["success"]
+        .agg(n="size", success="sum", tsr="mean")
+        .reset_index()
+    )

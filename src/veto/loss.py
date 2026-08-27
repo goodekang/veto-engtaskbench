@@ -12,22 +12,29 @@ def policy_loss(
     out: dict[str, torch.Tensor],
     y: torch.Tensor,
     csr: torch.Tensor | None = None,
+    broker_target: torch.Tensor | None = None,
     *,
     w_verdict: float = 1.0,
     w_csr: float = 0.15,
     w_broker: float = 0.05,
 ) -> dict[str, torch.Tensor]:
-    target = verdict_logit_target(y)
-    l_verdict = F.mse_loss(out["logit"], target)
+    l_verdict = F.binary_cross_entropy_with_logits(out["logit"], y.float())
     loss = w_verdict * l_verdict
     parts = {"verdict": l_verdict}
     if csr is not None:
         l_csr = F.binary_cross_entropy(out["csr"].clamp(1e-4, 1 - 1e-4), csr.clamp(0, 1))
         loss = loss + w_csr * l_csr
         parts["csr"] = l_csr
-    # keep broker mass off a single tool
     probs = torch.softmax(out["broker"], dim=-1)
-    l_broker = (probs.max(dim=-1).values.mean() - 1.0 / probs.size(-1)).abs()
+    if broker_target is not None:
+        l_broker = F.cross_entropy(out["broker"], broker_target.long())
+    else:
+        # Entropy regularisation prevents an unsupervised replay head from
+        # collapsing to one tool before a tool target is available.
+        entropy = -(probs * torch.log(probs.clamp_min(1e-8))).sum(dim=-1)
+        l_broker = -entropy.mean() / torch.log(
+            torch.tensor(float(probs.size(-1)), device=probs.device)
+        )
     loss = loss + w_broker * l_broker
     parts["broker"] = l_broker
     parts["total"] = loss

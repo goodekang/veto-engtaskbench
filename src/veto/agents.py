@@ -28,10 +28,11 @@ def broker_for(board: Blackboard, registry, k: int = 15, goal: SubGoal | None = 
 def bind_policy_selector(model: VetoPolicy, cache: TaskCache, k: int = 15):
     import torch
 
-    obs = torch.from_numpy(cache.obs).unsqueeze(0)
+    device = next(model.parameters()).device
+    obs = torch.from_numpy(cache.obs).unsqueeze(0).to(device)
     lengths = torch.tensor([cache.obs.shape[0]])
 
-    def _select(board, goal, registry):
+    def _select(board, goal, registry, exclude=None):
         return select_tool(
             board,
             goal,
@@ -41,6 +42,7 @@ def bind_policy_selector(model: VetoPolicy, cache: TaskCache, k: int = 15):
             model=model,
             obs=obs,
             lengths=lengths,
+            exclude=exclude,
         )
 
     return _select

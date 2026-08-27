@@ -20,6 +20,14 @@ class CachedObsEncoder(nn.Module):
 
     def forward(self, obs: torch.Tensor, lengths: torch.Tensor) -> torch.Tensor:
         # obs: [B, T, D], lengths: [B]
+        if obs.ndim != 3 or obs.size(-1) != self.d_obs:
+            raise ValueError(
+                f"obs must have shape [batch, tokens, {self.d_obs}], got {tuple(obs.shape)}"
+            )
+        if lengths.ndim != 1 or lengths.numel() != obs.size(0):
+            raise ValueError("lengths must contain one value per observation bag")
+        if torch.any(lengths <= 0) or torch.any(lengths > obs.size(1)):
+            raise ValueError("lengths must be in [1, padded_sequence_length]")
         x = self.proj(obs)
         packed = nn.utils.rnn.pack_padded_sequence(
             x, lengths.cpu(), batch_first=True, enforce_sorted=False
@@ -59,6 +67,12 @@ class VetoPolicy(nn.Module):
             nn.GELU(),
             nn.Linear(d_model, 1),
         )
+        # Cached measurements are the physical baseline. The residual head
+        # starts as an exact identity correction and only learns supported
+        # calibration offsets; random initialisation must not move millimetres
+        # by hundreds before any item-level update.
+        nn.init.zeros_(self.item_width[-1].weight)
+        nn.init.zeros_(self.item_width[-1].bias)
 
     def encode(self, obs: torch.Tensor, lengths: torch.Tensor) -> torch.Tensor:
         return self.encoder(obs, lengths)
@@ -109,13 +123,26 @@ def count_params(model: nn.Module) -> dict[str, int]:
 
 def load_checkpoint(path, map_location: str = "cpu") -> tuple[VetoPolicy, dict[str, Any]]:
     blob = torch.load(path, map_location=map_location, weights_only=False)
+    if not isinstance(blob, dict) or "state_dict" not in blob:
+        raise ValueError(f"invalid VETO checkpoint: {path}")
     cfg = blob.get("cfg", {})
+    missing = {"d_obs", "d_model", "n_layers", "n_tools"} - set(cfg)
+    if missing:
+        raise ValueError(f"checkpoint is missing model configuration: {sorted(missing)}")
     model = VetoPolicy(
-        d_obs=cfg.get("d_obs", 32),
-        d_model=cfg.get("d_model", 128),
-        n_layers=cfg.get("n_layers", 2),
-        n_tools=cfg.get("n_tools", 42),
+        d_obs=int(cfg["d_obs"]),
+        d_model=int(cfg["d_model"]),
+        n_layers=int(cfg["n_layers"]),
+        n_tools=int(cfg["n_tools"]),
     )
-    model.load_state_dict(blob["state_dict"])
+    model.load_state_dict(blob["state_dict"], strict=True)
+    expected = blob.get("trainable")
+    actual = count_params(model)["trainable"]
+    if expected is not None and int(expected) != actual:
+        raise ValueError(
+            f"checkpoint parameter metadata mismatch: recorded={expected}, actual={actual}"
+        )
+    blob.setdefault("artifact_role", "published_replay_distillation")
+    blob.setdefault("selection_metric", "paper_operating_point")
     model.eval()
     return model, blob
